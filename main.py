@@ -13,6 +13,7 @@ import re
 import sys
 
 
+#6장 문자열 조작
 class stringProblem:
     # Use a breakpoint in the code line below to debug your script.
     # Press Ctrl+F8 to toggle the breakpoint.
@@ -185,9 +186,9 @@ class stringProblem:
     # def 안에 def
 
 
-
+#7장 배열
 class arrangementProblem: #배열
-
+    #07) 두수의 합
     def twoSum(self, nums, target):
         #bruteForce O(n**2)
         #dict O(n)
@@ -211,7 +212,7 @@ class arrangementProblem: #배열
             else:
                 return [left, right] # O(n)
 
-
+    #08)빗물 트래핑
     def trap(self, height): #빗물트래핑 -> 단순 brute force O(n**2)
         #two pointer, left, right O(n)
         if not height:
@@ -260,7 +261,8 @@ class arrangementProblem: #배열
                 volume += distance * waters
             stack.append(i) # 0
         return volume
-#
+
+    #09) 세수의 합
     def threeSum(self, nums): #O(n**3) brute force
         #투 포인터로 합계산 O(n**2)
         result = []
@@ -285,7 +287,7 @@ class arrangementProblem: #배열
                     right -=1
         return result
 #
-    #배열 파티션
+    #10) 배열 파티션
     def arrayPairSum(self, nums):
         # sum = 0
         # pair = []
@@ -303,6 +305,7 @@ class arrangementProblem: #배열
 
         return sum(sorted(nums)[::2])
 
+    #11) 자신을 제외한 배열의 곱
     def productExceptSelf(self, nums): #O(n)
         out = []
         p = 1
@@ -316,6 +319,7 @@ class arrangementProblem: #배열
             p = p * nums[i]
         return out
 
+    #12) 주식
     def maxProfit(self, prices):
         #bruteforce -> o(n**2) -> O(n)
         #최댓값 갱신해서 O(n)
@@ -326,7 +330,7 @@ class arrangementProblem: #배열
             profit = max(profit, price-min_price)
         return profit
 
-    #연결리스트
+#8장) 연결리스트
 
     #Definition for singly - linked list. 삽입 쉬움
 # /**
@@ -362,8 +366,8 @@ class ListNode:
         self.val = val
         self.next = next
 
-
 class LinkedListProblem:
+    #13)
     def isPalindrome(self, head):
         rev = None
         slow = fast = head
@@ -377,6 +381,7 @@ class LinkedListProblem:
             slow, rev = slow.next, rev.next
         return not rev
 
+    #14)
     def mergeTwoLists(self, l1 : ListNode, l2:ListNode) -> ListNode: #재귀
         #default조건
         if (not l1) or(l2 and l1.val > l2.val):
@@ -386,6 +391,7 @@ class LinkedListProblem:
 
         return l1
 
+    #)15
     def reverseList(self, head):
         def reverse(node, prev = None):
             if not node:
@@ -402,6 +408,7 @@ class LinkedListProblem:
             prev, node = node, next
         return prev
 
+    #)16
     def addTwoNumbers(self):
         #연결리스트 뒤집고, 리스트, 연결리스트, 더하고, reverse
         def reverseList(head):
@@ -448,6 +455,7 @@ class LinkedListProblem:
             head = head.next
         return root.next
 
+    #)17
     def swapPairsRecursive(self ,head):
         #pair단위로 swap
         #재귀
@@ -480,6 +488,7 @@ class LinkedListProblem:
             cur= cur.next.next
         return head
 
+    #) 18
     def oddEvenList(self, head):
         if head is None:
             return None
@@ -493,7 +502,7 @@ class LinkedListProblem:
         odd.next = even_head
         return head
 
-
+    #) 19
     def reverseBetween(self, head, m, n):
         if not head or m == n:
             return head
@@ -510,10 +519,10 @@ class LinkedListProblem:
             start.next.next = tmp
         return root.next
 
-# # tuple
-# # swap
+# tuple
+# swap
 
-#Stack
+#9장 Stack
 class Stack:
     def __init__(self):
         self.top = None
@@ -530,6 +539,8 @@ class Stack:
         return self.top is None
 
 class StackProblem:
+
+    #)20
     def validParentheses(self, s):
         stack = []
         table = {
@@ -545,6 +556,7 @@ class StackProblem:
 
         return len(stack) == 0
 
+    #) 21
     def remove_duplicate_letters_recursion(self, s):
         # ? return sorted(set(s))
         for char in sorted(set(s)):
@@ -552,6 +564,7 @@ class StackProblem:
             if set(s) == set(suffix):
                 return char + self.remove_duplicate_letters_recursion(suffix.replace(char, ''))
         return ''
+
 
     def remove_duplicate_letters_stack(self, s):
         counter, seen, stack = collections.Counter(s), set(), []
@@ -566,6 +579,7 @@ class StackProblem:
             seen.add(char)
         return ''.join(stack)
 
+    # ) 22
     def dailyTemparature(self, l):
         stack = []
         daily = [0] * len(l)
@@ -577,9 +591,6 @@ class StackProblem:
 
             stack.append(i)
         return daily
-
-
-
 
 
     #https://www.acmicpc.net/problem/2164 시간, 공간 제한
@@ -597,7 +608,7 @@ class StackProblem:
 
         return cardQueue.popleft()
 
-# implmentStackUsingQueue
+#23) implmentStackUsingQueue
 class Mystack:
     def __init__(self):
         self.q = collections.deque()
@@ -616,7 +627,7 @@ class Mystack:
     def empty(self):
         return len(self.q) == 0
 
-#implementQueueUsingStack
+#24) implementQueueUsingStack
 class MyQueue:
     def __init__(self):
         self.input = []
@@ -635,6 +646,7 @@ class MyQueue:
     def empty(self):
         return self.input == [] and self.output == []
 
+#25)
 class MyCircularQueue:
     def __init__(self, size):
         self.front = 0
@@ -676,6 +688,8 @@ class ListNode:
         self.left = left
         self.right = right
 
+#10장 우선순위 Queue
+#)26
 class MyCircularQueue:
     def __init__(self, size):
         self.head , self.tail = ListNode(None), ListNode(None)
@@ -736,6 +750,8 @@ class MyCircularQueue:
 
 
 class PriorityQueueProblem: #k개
+
+    #)27
     def mergeKSortedList(self, l):
         root= result = ListNode(None)
         heap = []
@@ -760,7 +776,9 @@ class ListNode:
         self.value = value
         self.next = None
 
+#11장 해시 테이블
 #design hashmap - chaining
+#28)
 class MyHashMap:
     def __init__(self):
         self.size = 100
@@ -841,6 +859,7 @@ def test_birthday_problem():
     print(f"{same_birthdays / TRIALS * 100}%")
 
 class HashTableProblems:
+    #29)
     def jewelsAndStones(self, jewels:str, stones:str): #여러 방법, hash table, defaultdict, Counter, ~
         freqs = {}
         for char in stones:
@@ -871,7 +890,7 @@ class HashTableProblems:
         return count
     def jewelsAndStones(self, J, S):
         return sum(s in J for s in S)
-
+    #30 )
     def longestsubstring(self, s:str):
         #sliding, two pointer
         long = {}
@@ -887,7 +906,7 @@ class HashTableProblems:
             long[char] = index
         return max_length
 
-
+    #)31
     def topKfrequestHeapq(self, nums, k):
         #priorityQueue heapq
         freqs = collections.Counter(nums)
@@ -906,85 +925,7 @@ class HashTableProblems:
         #counter
 
 
-def binary_search(arr, key, start, end):
-    if start == end:
-        if arr[start] > key:
-            return start
-        else:
-            return start + 1
-    if start > end:
-        return start
-
-    #binary search
-    mid = (start + end ) /2
-    if arr[mid] < key:
-        return binary_search(arr, key, mid + 1, end)
-    elif arr[mid] > key:
-        return binary_search(arr, key, start, mid - 1)
-    else:
-        return key
-
-
-def insertion_sort(l, left=0, right=None):
-    if right is None:
-        right = len(l)-1
-    for i in range(left+1, right+1):
-        key = l[i]
-
-        j = binary_search(l, key, left+1, right+1)
-        # j = i -1
-        # while j >= left and l[j] > key:
-        #     l[j+1] = l[j]
-        #     j -= 1 #binary 아님
-
-        l[j+1] = key
-    return l
-
-
-def merge(left, right):
-    a = b = 0
-
-    cArr = []
-
-    while a < len(left) and b < len(right):
-        if left[a] < right[b]:
-            cArr.append(left[a])
-            a += 1
-        elif left[a] > right[b]:
-            cArr.append(right[b])
-            b += 1
-        else:
-            cArr.append(left[a])
-            #cArr.append(right[b])
-            a += 1
-            b += 1
-
-    #if a < len(left):
-    cArr.append(left[a:])
-
-    #if b < len(left):
-    cArr.append(right[b:])
-    return cArr
-
-def tim_sort(l):
-    min_run = 32
-    n = len(l)
-    for i in range(0, n, min_run):
-        insertion_sort(l, i, min((i+min_run-1), (n-1)))
-    #min_run단위로 sort
-
-    size = min_run
-
-    while size<n:
-        for s in range(0, n, size*2):
-            mid = s + size - 1
-            end = min((s + size*2 -1), (n - 1))
-
-            merged = merge(left = l[s:mid+1], right= l[mid+1, end+1])
-            l[s:s+len(merged)] = merged
-        size *= 2
-    return 1
-
+#1주차 TEST
 #https://programmers.co.kr/learn/courses/30/lessons/42583?language=python3
 def solution(bridge_length, weight, truck_weights):
     truck = collections.deque(truck_weights)
@@ -1020,10 +961,283 @@ def solution1(progresses, speeds):
         answer.append(count[i])
 
     return answer
-    
+
+# 1/29 - 문자열조작, 배열, 연결리스트
+#https://programmers.co.kr/learn/courses/30/lessons/60057?language=python3
+def solution2(s):
+
+    #default dict, two pointer (start ,...)
+
+    strt_temp = dict()
+
+    for j in range(1,len(s)//2+1):
+            answer = len(s)
+            strt = 0
+            count = 1
+            while strt < len(s):
+                if s[strt:strt+j] == s[strt+j:strt+j+j]:
+
+                    answer = answer-j
+                    strt = strt+j
+                    count += 1
+
+                else:
+                    if count != 1:
+                        answer += 1
+                    count = 1
+                    strt = strt + j
+
+            strt_temp[j] = answer
+
+    return min(strt_temp.values())
+
+# 1/31 - 스택, 큐, 해시테이블
+#https://leetcode.com/problems/largest-rectangle-in-histogram/
+def solution3(heights): #n**2
+    answer = 0
+    # for i in range(len(heights)):
+    #     width = 1
+    #     while width < len(heights):
+    #         if (i+width< len(heights)-1) and (heights[i] < heights[i+width]):
+    #             # 오른 쪽 체크
+    #             width += 1
+    #         if (i-width> 0) and (heights[i] < heights[i-width]):
+    #             width += 1
+    #             # 왼쪽 체크
+    #         else:
+    #             answer = max(heights[i] * width, answer)
+    #             break
+
+    # 스택 ->
+    stck = []
+    for i in range(len(heights)):
+        stck.append(heights[i])
+        width = 1
+        while stck:
+            if (i+width< len(heights)-1) and stck[-1] < heights[i+width]:
+                    # 오른 쪽 체크
+                    width += 1
+            else:
+                    answer = max(heights[i] * width, answer)
+                    stck.pop()
+    return answer
+
+#2주차 TEST
+#https://programmers.co.kr/learn/courses/30/lessons/49994
+def solution4(dirs): #bfs(recursion, 스택), dfs (queue)
+    visited = []
+    dirs_dict = {
+        "U":(1, 0),
+        "D":(-1, 0),
+        "R":(0, 1),
+        "L":(0,-1)
+    }
+    x, y = 0, 0
+    for dir in dirs:
+        if -5 <= x + dirs_dict[dir][0] <= 5 and -5 <= y + dirs_dict[dir][1] <= 5:
+            x, y = x + dirs_dict[dir][0], y + dirs_dict[dir][1]
+            if (x,y,dir) not in visited:
+                visited.append((x,y, dir))
+    return len(visited)
+
+
+
+#https://programmers.co.kr/learn/courses/30/lessons/43165
+def solution5(numbers, target): #조합? dfs, backtracking?
+    count = []
+    result = []
+
+    def dfs_m(i, pth):
+        if i == len(numbers)-1:
+
+            pth.append(-numbers[i])
+
+            if sum(pth)==target:
+                count.append(pth)
+
+            result.append(pth[:])
+            return
+        else:
+            pth.append(-numbers[i])
+            dfs_p(i + 1, pth[:])
+            dfs_m(i+1, pth[:])
+
+    def dfs_p(i, pth):
+        if i == len(numbers)-1:
+
+            pth.append(numbers[i])
+
+            if sum(pth)==target:
+                count.append(pth)
+
+            result.append(pth[:])
+            return
+        else:
+
+            pth.append(numbers[i])
+            dfs_p(i+1, pth[:])
+            dfs_m(i+1, pth[:])
+
+
+    dfs_p(0, [])
+    dfs_m(0, [])
+
+    # print(result)
+    # for i in result:
+    #     if sum(i) == target:
+    #         count+=1
+    # print(count)
+
+
+    return len(count)
+
+
+#3주차 TEST
+#https://programmers.co.kr/learn/courses/30/lessons/42626?language=python3
+def solution6(scoville, K):
+    answer = 0
+    #heapq
+
+    heapq.heapify(scoville)
+    #print(heapq.heappop(scoville))
+    p = heapq.heappop(scoville)
+    while p < K:
+        try:
+            answer += 1
+            t = p + 2 * heapq.heappop(scoville)
+            heapq.heappush(scoville, t)
+
+            p = heapq.heappop(scoville)
+        except IndexError:
+            return -1
+
+    return answer
+#https://programmers.co.kr/learn/courses/30/lessons/17686?language=python3
+import re
+
+def solution7(files):
+    answer = []
+    c = re.compile('[a-zA-Z]+')
+    n = re.compile('[0-9]+')
+    new_files = []
+
+    # for index, file in enumerate(files):
+    #     new_files.append((c.findall(file.lower())[0], n.findall(file)[0]), file)
+
+    # new_files.sort(key = lambda x:(x[0], int(x[1]))) #차선 정렬
+    # for file in new_files :
+    #     answer.append(file[2])
+
+
+    indexes = []
+    new_files_n = []
+    stck = collections.deque()
+    for index, file in enumerate(files):
+        heapq.heappush(new_files,(c.findall(file.lower())[0], index))
+
+    while new_files:
+        (char, i) = heapq.heappop(new_files)
+        if (stck and char == stck[-1][0]) or len(stck) == 0:
+            heapq.heappush(new_files_n, (int(n.findall(files[i])[0]), i))
+        else:
+            heapq.heappush(new_files_n, (int(n.findall(files[i])[0]), i))
+            while new_files_n:
+                (char, i) = heapq.heappop(new_files_n)
+                indexes.append(i)
+        stck.append((char, i))
+
+    while new_files_n:
+        (char, i) = heapq.heappop(new_files_n)
+        indexes.append(i)
+
+    for i in indexes:
+        answer.append(files[i])
+
+
+    #차선정렬
+    #     result = []
+    #     for file in files:
+    #         headIdx = 0
+    #         head = ''
+    #         number = ''
+    #         tail = ''
+    #         for i in range(len(file)):
+
+    #             if not headIdx and file[i].isdigit():
+    #                 head = file[:i]
+    #                 headIdx = i
+
+    #             if headIdx and not file[i].isdigit():
+    #                 number = file[headIdx:i]
+    #                 tail = file[i:]
+    #                 result.append([head, number, tail])
+    #                 break
+
+    #             if headIdx and i==len(file)-1 and number=='':
+    #                 number = file[headIdx:]
+    #                 result.append([head, number])
+
+    #     print(f'{result}')
+
+    #     result = sorted(result, key = lambda x:(x[0].lower(), int(x[1])))
+
+    #     print(f'{result}')
+
+    #     return [''.join(file) for file in result]
+    return answer
+
+
+
+##BackJoon + 이코테
+# stack
+# - [https://www.acmicpc.net/problem/9012](https://www.acmicpc.net/problem/9012)
+# - [https://www.acmicpc.net/problem/1874](https://www.acmicpc.net/problem/1874)
+#
+# queue
+# - [https://www.acmicpc.net/problem/2164](https://www.acmicpc.net/problem/2164)
+# - [https://www.acmicpc.net/problem/1966](https://www.acmicpc.net/problem/1966)
+#
+# hash
+# - [https://www.acmicpc.net/problem/1920](https://www.acmicpc.net/problem/1920)
+# - [https://www.acmicpc.net/problem/17219](https://www.acmicpc.net/problem/17219)
+
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    # print(solution6([1, 2, 3, 9, 10, 12], 7))
+    print(solution7(["img12.png", "img10.png", "img02.png", "img1.png", "IMG01.GIF", "img2.JPG"]))
+    print(solution7(["F-5 Freedom Fighter", "B-50 Superfortress", "A-10 Thunderbolt II", "F-14 Tomcat"]))
+    print(solution7(["muzi1.txt", "MUZI1.txt", "muzi000.txt", " muzi1.TXT"]))
+
+
+   # print(solution4("ULURRDLLU"))
+   # print(solution4("LULLLLLLU"))
+    print(solution5([1,1,1,1,1],3))
+    print(solution5([4, 1, 2, 1], 4))
+
+    # print(solution(2, 10, [7,4,5,6]))
+    # print(solution(100, 100, [10]))
+    # print(solution(100, 100, [10,10,10,10,10,10,10,10,10,10]))
+
+    # print(solution1([93, 30, 55], [1, 30, 5]))
+    # print(solution1([95, 90, 99, 99, 80, 99], [1, 1,1,1,1, 1]))
+
+
+    # 1/31 월
+    # print(solution3([2,1,5,6,2,3]))
+    # print(solution3([2,4]))
+
+
+    # #1/29 토
+    # print(solution2("aabbaccc"))
+    # print(solution2("ababcdcdababcdcd")) #2ab2cd2ab2cd, 2ababcdcd
+    # print(solution2("abcabcdede"))
+    # print(solution2("abcabcabcabcdededededede"))
+    # print(solution2("xababcdcdababcdcd"))
+    #
+
+
     #stringProblem = stringProblem()
     # print(stringProblem.isPalindromeRe("A man, a plan, a canal: Panama"))
     # print(stringProblem.reverseString(["H","a","n","n","a","h"]))
@@ -1058,12 +1272,6 @@ if __name__ == '__main__':
     # print(pqp.mergeKSortedList([ListNode(1, ListNode(4, ListNode(5))), ListNode(1, ListNode(3, ListNode(4))), ListNode(2, ListNode(6))]))
 
 
-    # print(solution(2, 10, [7,4,5,6]))
-    # print(solution(100, 100, [10]))
-    # print(solution(100, 100, [10,10,10,10,10,10,10,10,10,10]))
-
-    print(solution1([93, 30, 55], [1, 30, 5]))
-    print(solution1([95, 90, 99, 99, 80, 99], [1, 1,1,1,1, 1]))
 
 
 # # See PyCharm help at https://www.jetbrains.com/help/pycharm/
