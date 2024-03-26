@@ -234,11 +234,14 @@ class BinaryHeap:
         else:
             leftChild = idxPercolate * 2 + 1
             leftPrioirty = self.arrPriority[leftChild]
+
         if 2 * idxPercolate + 2 > self.size:
             return
         else:
             rightChild = idxPercolate * 2 + 2
             rightPriority = self.arrPriority[rightChild]
+
+
 
         if leftPrioirty > rightPriority:
             biggerChild = leftChild
@@ -444,3 +447,5 @@ class BinarySearchTree:
         return ret
 
 # priority queue
+
+#DynamicProgramming ...

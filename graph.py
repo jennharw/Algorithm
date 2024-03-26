@@ -413,7 +413,7 @@ class GraphProblem:
             return max(dist.values())
         return -1
 
-    #)41
+    #)41 #Todo
     def cheapestFlights(self, n, edges, src, dst, K):
         graph = collections.defaultdict()
 
@@ -720,6 +720,8 @@ class BinarySearch:
     #2/4
     #65
     def binarySearch(self, nums, target):
+
+        return bisect.bisect_left(nums, target)
         l, r = 0, len(nums)
         while l <= r:
             mid = (l + r) //2
@@ -1020,6 +1022,7 @@ class BinarySearch:
         print(end)
         return end
 
+    #최단경로
 
     def networkDelayTime(self, times, N, K):
         graph = collections.defaultdict(list)
@@ -1162,8 +1165,20 @@ class BinarySearch:
     #def futureCities(self, ):
 
 
+    # 2 / 7
+    # 최단경로, 다익스트라, 화성탐사, 숨바꼭질
+    # 네트워크 딜레이, 가장 저렴한 항공권
+    # 2 / 8
+    # 플로이드워셜
+    # - [boj][https: // www.acmicpc.net / problem / 1753](https: // www.acmicpc.net / problem / 1753)
+    # - [boj][https: // www.acmicpc.net / problem / 1956](https: // www.acmicpc.net / problem / 1956)
+    # - [boj][https: // www.acmicpc.net / problem / 4485](https: // www.acmicpc.net / problem / 4485)
+# - [boj][https: // www.acmicpc.net / problem / 11404](https: // www.acmicpc.net / problem / 11404)
 
 
+# 2 / 9
+# dp, 피보나치, 정수삼각형, 퇴사
+# 최대서브배열, 계단오르기, 집도둑
 class DynamicProgramming:
     def fibonacciRecursion(self, N):
         #recursion
@@ -1257,49 +1272,172 @@ class DynamicProgramming:
             dp[i] = max(dp[i-1], dp[i-2]+nums[i])
         return dp.popitem()[1]
 
-    # 2 / 7
-    # 최단경로, 다익스트라, 화성탐사, 숨바꼭질
-    # 네트워크 딜레이, 가장 저렴한 항공권
-    # 2 / 8
-    # 플로이드워셜
-    # - [boj][https: // www.acmicpc.net / problem / 1753](https: // www.acmicpc.net / problem / 1753)
-    # - [boj][https: // www.acmicpc.net / problem / 1956](https: // www.acmicpc.net / problem / 1956)
-    # - [boj][https: // www.acmicpc.net / problem / 4485](https: // www.acmicpc.net / problem / 4485)
-    # 2 / 9
-    # dp, 피보나치, 정수삼각형, 퇴사
-    # 최대서브배열, 계단오르기, 집도둑
+
+    def miningGold(self,n, m, goldT):
+        graph = [[0 for _ in range(m)] for _ in range(n)]
+        goldT.reverse()
+        for i in range(n):
+            for j in range(m):
+                graph[i][j] = goldT.pop()
+        print(graph)
+        i, j = 0, 0 #123
+
+        Q = []
+        for i in range(n):
+            heapq.heappush(Q, (-graph[i][j], (i, j)))
+
+        count = 1
+        while Q:
+            if count == m:
+                gold, (i, j) = heapq.heappop(Q)
+                return -gold
+
+            gold, (i, j) = heapq.heappop(Q)
+            i_lst, j_lst =  [0, 1, -1],[1, 1, 1],
+            for k in range(3):
+                p = i + i_lst[k]
+                q = j + j_lst[k]
+                if 0 < p < n and 0 <= q < m:
+                    heapq.heappush(Q, (gold-graph[p][q], (p, q)))
+
+            count += 1
+
+
+
+
+
+
     def triangle(self, tri ):
 
-        dp = [[0 for _ in tri[i]] for i in len(tri)]
+        dp = [tri[i] for i in range(len(tri))]
+        print(dp)
         def tris(n):
             if n== 0:
                 dp[0][0] = tri[0][0]
 
-            #i
-            for i in range(1, len(tri)):
+
+            for i in range(1, len(tri)): #i = 1
                 for j in range(i+1):
-                    if j != 0 :
-                        dp[i][j] = max(dp[i-1][j], dp[i-1][j-1]) + tri[i][i]
-                    if j == 0:
-                        dp[i][j] = dp[i - 1][j] + tri[i][i]
                     if j == i:
-                        dp[i][j] = dp[i - 1][j - 1] + tri[i][i]
+                        dp[i][j] = dp[i - 1][j-1] + tri[i][j]
+                    elif j == 0:
+                        dp[i][j] = dp[i - 1][j] + tri[i][j]
+                    else:
+                        dp[i][j] =  max(dp[i-1][j], dp[i-1][j-1]) + tri[i][j]
 
             return max(dp[n])
-        return tris(5)
 
-    def compny(self, schedules, N):
+        return tris(4)
+
+    def company(self, t, p, N): #퇴사일
+
+        T = int(input())
+        for _ in range(T):
+            N = int(input())
+            table = []
+            for _ in range(N):
+                t, p = map(int, input().split())
+                table.append((t, p))
+
+            max_val = 0
+
+            def dp(idx, pay):
+                global max_val
+                if idx >= N:
+                    if pay > max_val:
+                        max_val = pay
+                    return
+
+                t, p = table[idx]
+
+                for i in range(2):
+                    if i == 1: # 일하는 경우
+                        if idx + t > N:
+                            return
+                        dp(idx + t, pay + p)
+                    else: #일하지 않는 경우
+                        dp(idx + 1, pay)
+
+            dp(0, 0)
+            print(max_val)
+
+
+        t = t #각 상담을 완료하는 데 걸리는 기간
+        p = p # 각 상담을 완료했을 때 받을 수 있는 금액
+        #뒤에서
+        dp = collections.defaultdict(int) #이익
+        max_value = 0
+
+        for i in range(N-1, -1, -1):
+            time = t[i] + i
+            #상담이 기간안에 끝나는 경우
+            if time <= N:
+                dp[i]= max(p[i] + dp[time], max_value)
+                max_value = dp[i]
+                print(dp)
+                print(time)
+            else :
+                dp[i] = max_value
+                print(dp)
+
+        return max_value
+
+    def soldiers(self, powers):
+        powers.reverse()
+
+        dp = [1] * len(powers)
+
+        for i in range(1, len(powers)):
+            for j in range(0, i):
+                if powers[j] < powers[i]:
+                    dp[i] = max(dp[i], dp[j]+1)
+
+        return len(powers) - max(dp)
+
+
+    def uglyNumber(self, n):
+        ugly = [0] * n
+        ugly[0]= 1
         dp = collections.defaultdict(int)
 
-        dp        dp[1] = schedules[1]
+        if n == 1:
+            dp[1] = 1
+        i2 = i3 = i5 = 0
+        next2, next3, next5 = 2,3,5
 
+        for l in range(1,n):
+            dp[l] = min(next2, next3, next5)
+            if dp[l] == next2 :
+                i2+=1
+                next2 = dp[i2] * 2
+            if dp[l] == next3:
+                i3 += 1
+                next3 = dp[i3] * 3
+            if dp[l] == next5:
+                i5 += 1
+                next5 = dp[i5] * 5
+        return dp[n-1]
 
+    def editCharacter(self, char1, char2):
+        n = len(char1)
+        m = len(char2)
 
+        dp = [[0] * (m + 1) for _ in range(n+1)]
 
+        for i in range(1, n + 1):
+            dp[i][0] = i
+        for j in range(1, m + 1):
+            dp[0][j] = j
 
+        for i in range(1, n+1):
+            for j in range(1, m+1):
+                if char1[i-1] == char2[j-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                else:
+                    dp[i][j] = 1 + min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1])
+        return dp[n][m]
 
-
-
+    # Todo: def zero_one_knapsack(self, cargo):
 
 
 
@@ -1546,29 +1684,12 @@ class Solution:
 # - 다익스트라
 # - 벨만 포드
 # - 플로이드 와셜
-#
+
 # - 과제 최단경로 dp?
 # - [boj][https: // www.acmicpc.net / problem / 1753](https: // www.acmicpc.net / problem / 1753)
 # - [boj][https: // www.acmicpc.net / problem / 1956](https: // www.acmicpc.net / problem / 1956)
 # - [boj][https: // www.acmicpc.net / problem / 4485](https: // www.acmicpc.net / problem / 4485)
 # - [boj][https: // www.acmicpc.net / problem / 11404](https: // www.acmicpc.net / problem / 11404)
-
-# 힙
-
-#- [boj] [https://www.acmicpc.net/problem/1927](https://www.acmicpc.net/problem/1927)
-#- [boj] [https://www.acmicpc.net/problem/11279](https://www.acmicpc.net/problem/11279)
-#- [boj] [https://www.acmicpc.net/problem/2512](https://www.acmicpc.net/problem/2512)
-#- [boj] [https://www.acmicpc.net/problem/2805](https://www.acmicpc.net/problem/2805)
-#- [boj] [https://www.acmicpc.net/problem/1654](https://www.acmicpc.net/problem/1654)
-
-#정렬
-# - https://www.acmicpc.net/problem/5052 삽입
-# - [https://www.acmicpc.net/problem/11650](https://www.acmicpc.net/problem/11650)
-# - [boj] [https://www.acmicpc.net/problem/11651](https://www.acmicpc.net/problem/11651) 큌
-# - [boj] [https://www.acmicpc.net/problem/1181](https://www.acmicpc.net/problem/1181) 병합
-
-# - [boj] [https://www.acmicpc.net/problem/10814](https://www.acmicpc.net/problem/10814)
-# - [boj] [https://www.acmicpc.net/problem/2751](https://www.acmicpc.net/problem/2751)
 
 # 이진트리
 ## 이진트리
@@ -1583,8 +1704,21 @@ class Solution:
 # # https://programmers.co.kr/learn/courses/30/lessons/43238
 # # https://programmers.co.kr/learn/courses/30/lessons/43236
 
-# 분할정복
+# 힙
+#- [boj] [https://www.acmicpc.net/problem/1927](https://www.acmicpc.net/problem/1927)
+#- [boj] [https://www.acmicpc.net/problem/11279](https://www.acmicpc.net/problem/11279)
 
+#정렬
+# - https://www.acmicpc.net/problem/5052 삽입
+# - [https://www.acmicpc.net/problem/11650](https://www.acmicpc.net/problem/11650)
+# - [boj] [https://www.acmicpc.net/problem/11651](https://www.acmicpc.net/problem/11651) 큌
+# - [boj] [https://www.acmicpc.net/problem/1181](https://www.acmicpc.net/problem/1181) 병합
+
+# - [boj] [https://www.acmicpc.net/problem/10814](https://www.acmicpc.net/problem/10814)
+# - [boj] [https://www.acmicpc.net/problem/2751](https://www.acmicpc.net/problem/2751)
+
+
+# 분할정복
 # - [boj][https: // www.acmicpc.net / problem / 11444](https: // www.acmicpc.net / problem / 11444)
 # - [boj][https: // www.acmicpc.net / problem / 1992](https: // www.acmicpc.net / problem / 1992)
 
@@ -1684,7 +1818,7 @@ if __name__ == '__main__':
 #     print(bt.minimumHeightTree(6, [[0, 3],[1,3],[2,3], [4,3], [5,4]]))
 
     BS = BinarySearch()
-    # print(BS.binarySearch(nums = [-1,0,3,5,9,12], target= 9))
+    print(BS.binarySearch(nums = [-1,0,3,5,9,12], target= 9))
     # print(BS.binarySearchRecursion(nums = [-1,0,3,5,9,12], target= 9))
     # print(BS.binarySearchBisect(nums = [-1,0,3,5,9,12], target= 9))
     # print(BS.binarySearchIndex(nums = [-1,0,3,5,9,12], target= 9))
@@ -1715,4 +1849,12 @@ if __name__ == '__main__':
     #print(BS.checkMars([[3,7,2,0,1],[2,8,0,9,1],[1,2,1,8,1],[9,8,9,2,0],[3,6,5,1,5]]))
     #print(BS.checkMars([[9,0,5,1,1,5,3],[4,1,2,1,6,5,3],[0,7,6,1,6,8,5],[1,1,7,8,3,2,3],[9,4,0,7,6,4,1],[5,8,3,2,4,8,3],[7,4,8,4,8,3,4]]))
     #print(BS.hideSeek([[3,6], [4,3], [3,2], [1,3], [1,2],[2,4],[5,2]]))
-    print(BS.floyd(5, [[1,2,2], [1,3,3], [1,4,1], [1,5,10], [2,4,2], [3,4,1], [3,5,1], [4,5,3], [3,5,10],[3,1,8],[1,4,2],[5,1,7],[3,4,2],[5,2,4]]))
+    #print(BS.floyd(5, [[1,2,2], [1,3,3], [1,4,1], [1,5,10], [2,4,2], [3,4,1], [3,5,1], [4,5,3], [3,5,10],[3,1,8],[1,4,2],[5,1,7],[3,4,2],[5,2,4]]))
+    dp = DynamicProgramming()
+    # print(dp.miningGold(3,4,[1,3,3,2,2,1,4,1,0,6,4,7]))
+    # print(dp.miningGold(4,4,[1,3,1,5,2,2,4,1,5,0,2,3,0,6,1,2]))
+    #print(dp.triangle([[7],[3,8],[8,1,0],[2,7,4,4],[4,5,2,6,5]]))
+    # print(dp.company([3,5,1,1,2,4,2],[10,20,10,20,15,40,200], 7))
+    # print(dp.company([1,1,1,1,1,1,1,1,1,1],[1,2,3,4,5,6,7,8,9,10], 10))
+    # print(dp.company([5,5,5,5,5,5,5,5,5,5],[10,9,8,7,6,10,9,8,7,6], 10))
+    # print(dp.company([5,4,3,2,1,1,2,3,4,5],[50,40,30,20,10,10,20,30,40,50], 10))

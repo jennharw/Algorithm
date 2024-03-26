@@ -1437,8 +1437,8 @@ if __name__ == '__main__':
     # # print(arr.productExceptSelf([1,2,3,4]))
     # # print(arr.maxProfit([7, 1,5,3,6,4]))
     #
-    llp = LinkedListProblem()
-    print(llp.isPalindrome(ListNode(1, ListNode(2, ListNode(2, ListNode(1)))))) #[1,2,2,1]
+    # llp = LinkedListProblem()
+    # print(llp.isPalindrome(ListNode(1, ListNode(2, ListNode(2, ListNode(1)))))) #[1,2,2,1]
     # print(llp.mergeTwoLists(ListNode(1, ListNode(2, ListNode(4))), ListNode(1, ListNode(3, ListNode(4)))))
     # print(llp.reverseList(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))))
     # print(llp.reverseListWhile(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))))

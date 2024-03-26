@@ -1,3 +1,4 @@
+import bisect
 import collections
 import heapq
 
@@ -85,6 +86,20 @@ def tim_sort(l):
 #quick sort
 #insertionSort
 
+def bs(nums):
+    lst = [nums[0]]
+    for i in range(len(nums)):
+
+        if nums[i] > lst[-1]:
+            lst.append(nums[i])
+            print("lst", lst)
+        else:
+            idx = bisect.bisect_left(lst, nums[i])
+            print(idx)
+            lst[idx] = nums[i]
+            print(lst)
+    print(lst)
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
+    bs([10, 20, 10, 30, 20, 50])
